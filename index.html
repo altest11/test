@@ -8,8 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    html { scroll-behavior: smooth; }
-
     :root {
       --red: #c52233;
       --gold: #d4af37;
@@ -35,7 +33,6 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
-      perspective: 1200px;
     }
 
     body::before {
@@ -54,72 +51,7 @@
       background-size: 120px 120px;
       opacity: 0.18;
       pointer-events: none;
-      transition: transform 0.25s ease;
     }
-
-    .glow-rings,
-    .glass-rays {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.35;
-      filter: blur(12px);
-    }
-
-    .glow-rings { background: radial-gradient(circle at 18% 30%, rgba(245,200,66,0.24), transparent 32%), radial-gradient(circle at 82% 20%, rgba(197,34,51,0.2), transparent 30%); }
-    .glass-rays { background: conic-gradient(from 120deg, rgba(255,255,255,0.25), transparent 30%, rgba(255,255,255,0.12), transparent 80%); mask: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0)); }
-
-    .shine-trail {
-      position: absolute;
-      inset: -40% -20%;
-      background: linear-gradient(110deg, rgba(255,255,255,0.18), transparent 35%);
-      transform: rotate(8deg);
-      animation: sweep 14s ease-in-out infinite;
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-
-    .pulse-glow {
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(212,175,55,0.25), transparent 60%);
-      filter: blur(10px);
-      animation: float 12s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .glass-animate::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 45%, rgba(255,255,255,0.12) 60%, transparent 75%);
-      mix-blend-mode: screen;
-      opacity: 0;
-      animation: glint 8s linear infinite;
-      pointer-events: none;
-    }
-
-    .floating-shape {
-      position: absolute;
-      border-radius: 50%;
-      background: linear-gradient(145deg, rgba(197,34,51,0.55), rgba(15,15,17,0.4));
-      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
-      filter: saturate(1.1);
-      opacity: 0.7;
-      transition: transform 0.2s ease;
-    }
-
-    .floating-shape.gold { background: linear-gradient(145deg, rgba(212,175,55,0.6), rgba(15,15,17,0.35)); }
-    .floating-shape.tiny { width: 18px; height: 18px; }
-    .floating-shape.small { width: 44px; height: 44px; }
-    .floating-shape.medium { width: 92px; height: 92px; }
-
-    @keyframes sweep { to { transform: translateX(30%) rotate(8deg); opacity: 0.8; } }
-    @keyframes float { 0%, 100% { transform: translate3d(0, -6px, 0); } 50% { transform: translate3d(0, 12px, 0); } }
-    @keyframes glint { 10% { opacity: 0; transform: translateX(-15%); } 40% { opacity: 0.65; } 70% { opacity: 0; transform: translateX(25%); } 100% { opacity: 0; } }
 
     header {
       position: sticky;
@@ -333,15 +265,6 @@
     .stat-card p { margin: 8px 0 0; color: #c5c9d1; }
     .stat-value { font-size: 2rem; font-weight: 700; color: var(--gold); }
 
-    .tilt:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
-    .tilt { transition: transform 0.35s ease, box-shadow 0.35s ease; }
-
-    .reveal { opacity: 0; transform: translateY(26px) scale(0.98); transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
-    .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
-    [data-reveal][data-delay="fast"] { transition-delay: 0.05s; }
-    [data-reveal][data-delay="mid"] { transition-delay: 0.15s; }
-    [data-reveal][data-delay="slow"] { transition-delay: 0.3s; }
-
     section { margin: 60px 0; }
 
     section h2 {
@@ -464,89 +387,10 @@
       margin-bottom: 12px;
     }
 
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .panel {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px) saturate(140%);
-    }
-
-    .panel h3 { margin: 0 0 10px; }
-    .panel p { margin: 0 0 12px; color: #d7dce7; }
-
-    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: #f2f4f9; font-weight: 600; }
-
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-
-    .field { display: grid; gap: 6px; }
-    .field label { font-weight: 600; color: #f5f7fa; }
-    .field input, .field select, .field textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color: #f3f6fb;
-      font-size: 1rem;
-    }
-
-    .field textarea { min-height: 120px; resize: vertical; }
-
-    .status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-
-    .status .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #5ee1a1;
-      box-shadow: 0 0 0 6px rgba(94,225,161,0.15);
-    }
-
-    .small-btn { padding: 10px 12px; font-size: 0.92rem; }
-
-    .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .table thead { text-align: left; color: #d6dbe6; font-size: 0.9rem; }
-    .table th, .table td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .table tbody tr:last-child td { border-bottom: none; }
-
-    .label { padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); font-weight: 600; font-size: 0.85rem; }
-
-    .category-filter { display: flex; gap: 10px; flex-wrap: wrap; }
-
-    .chip-btn {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      color: #f2f4f9;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .chip-btn.active { background: linear-gradient(135deg, rgba(212,175,55,0.6), rgba(245,200,66,0.7)); color: #0d0d0f; }
-
-    .muted { color: #c8cede; font-size: 0.95rem; }
-
-    .tagline-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-    .tagline-list li { display: flex; gap: 10px; align-items: center; }
-    .tagline-list strong { color: #fff; }
-
-    .disabled { opacity: 0.5; pointer-events: none; }
-
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; padding: 32px; }
       nav { flex-wrap: wrap; gap: 12px 18px; }
       .nav-links { flex-wrap: wrap; }
-      .content-grid { grid-template-columns: 1fr; }
       .contact { grid-template-columns: 1fr; }
     }
 
@@ -559,8 +403,6 @@
 </head>
 <body>
   <div class="grid-overlay" aria-hidden="true"></div>
-  <div class="glow-rings" aria-hidden="true" data-parallax data-depth="0.02"></div>
-  <div class="glass-rays" aria-hidden="true" data-parallax data-depth="0.035"></div>
   <header>
     <nav>
       <div class="brand">
@@ -576,17 +418,14 @@
       <div class="nav-links">
         <a href="#services">Services</a>
         <a href="#projects">Projects</a>
-        <a href="#content-hub">Content</a>
         <a href="#expertise">Expertise</a>
-        <a href="#updates">Updates</a>
         <a href="#contact" class="btn outline">Request Proposal</a>
       </div>
     </nav>
   </header>
 
   <main>
-    <section class="hero glass-animate tilt" id="top" data-reveal>
-      <div class="shine-trail" aria-hidden="true"></div>
+    <section class="hero" id="top">
       <div class="hero-content">
         <div class="tagline">Precision. Strength. Legacy.</div>
         <h1>Building future-ready spaces with a glasslike, modern elegance.</h1>
@@ -613,10 +452,7 @@
           </div>
         </div>
       </div>
-      <div class="hero-visual glass-animate tilt" data-reveal data-delay="fast">
-        <div class="pulse-glow" style="top:-80px; right:-60px;" aria-hidden="true" data-parallax data-depth="0.07"></div>
-        <div class="floating-shape medium gold" style="top:-10px; left:-18px;" aria-hidden="true" data-parallax data-depth="0.05"></div>
-        <div class="floating-shape small" style="bottom:18px; right:18px;" aria-hidden="true" data-parallax data-depth="0.09"></div>
+      <div class="hero-visual">
         <div class="accent-bar"></div>
         <h3 style="margin:0 0 10px;">Signature delivery framework</h3>
         <p style="color:#d0d6df; margin:0 0 16px;">From pre-construction strategy to turnkey commissioning, our teams integrate digital twins, modular systems, and glass-forward facades that stand the test of time.</p>
@@ -632,22 +468,22 @@
       <h2>What we build</h2>
       <p class="lead">Sophisticated structures that blend glass elegance with resilient cores—delivered on time, on budget, and with executive-grade transparency.</p>
       <div class="card-grid">
-        <div class="card glass-animate tilt" data-reveal data-delay="fast">
+        <div class="card">
           <div class="chip" style="background:rgba(197,34,51,0.16); color:#ffd1d7; border-color:rgba(197,34,51,0.45);">Commercial Flagships</div>
           <h3>Corporate towers & HQs</h3>
           <p>Iconic skylines with curtain-wall systems, grand lobbies, and smart building automation for modern enterprises.</p>
         </div>
-        <div class="card glass-animate tilt" data-reveal>
+        <div class="card">
           <div class="chip">Public Infrastructure</div>
           <h3>Transit & civic assets</h3>
           <p>Terminals, bridges, and civic campuses engineered for longevity, clarity of wayfinding, and occupant comfort.</p>
         </div>
-        <div class="card glass-animate tilt" data-reveal data-delay="mid">
+        <div class="card">
           <div class="chip" style="background:rgba(245,200,66,0.18); color:#0d0d0f; border-color:rgba(245,200,66,0.5);">Design-Build</div>
           <h3>Turnkey project delivery</h3>
           <p>Unified planning, BIM coordination, and rapid execution with a single accountable partner from concept to commissioning.</p>
         </div>
-        <div class="card glass-animate tilt" data-reveal data-delay="slow">
+        <div class="card">
           <div class="chip" style="background:rgba(212,175,55,0.16); color:#f9e8b4; border-color:rgba(212,175,55,0.42);">Adaptive Reuse</div>
           <h3>Modernizing legacy assets</h3>
           <p>Transforming structures with seismic upgrades, glass atriums, and sustainability retrofits that respect their heritage.</p>
@@ -659,7 +495,7 @@
       <h2>Featured builds</h2>
       <p class="lead">A portfolio spanning glass-wrapped landmarks, resilient industrial hubs, and human-centered public spaces.</p>
       <div class="projects">
-        <div class="project-card glass-animate tilt" data-reveal>
+        <div class="project-card">
           <div class="project-img"></div>
           <div class="project-body">
             <h3>Skyline One</h3>
@@ -670,7 +506,7 @@
             </div>
           </div>
         </div>
-        <div class="project-card glass-animate tilt" data-reveal data-delay="mid">
+        <div class="project-card">
           <div class="project-img" style="background: linear-gradient(120deg, rgba(245,200,66,0.85), rgba(15,15,17,0.85)), linear-gradient(90deg, rgba(197,34,51,0.65), transparent 60%);"></div>
           <div class="project-body">
             <h3>Harbor Link Terminal</h3>
@@ -719,128 +555,6 @@
       </div>
     </section>
 
-    <section id="content-hub" style="margin-top: 28px;">
-      <div class="accent-bar"></div>
-      <div class="content-grid">
-        <div class="panel">
-          <h2 style="margin-top:0;">Content hub &amp; role control</h2>
-          <p class="lead">Operate like a newsroom—control who can post, what gets published, and keep corporate guardrails intact.</p>
-          <div class="status">
-            <span class="dot" aria-hidden="true"></span>
-            <div>
-              <div style="font-weight:700;">Current role: <span id="current-role">Basic user</span></div>
-              <div class="muted">Admin access code protects publishing workflows.</div>
-            </div>
-          </div>
-          <form id="role-form" style="margin-top:14px; display:grid; gap:12px;">
-            <div class="form-grid">
-              <label class="pill" style="cursor:pointer;">
-                <input type="radio" name="role" value="basic" style="accent-color: var(--red);" checked> Basic user
-              </label>
-              <label class="pill" style="cursor:pointer;">
-                <input type="radio" name="role" value="admin" style="accent-color: var(--gold);"> Admin (secure)
-              </label>
-            </div>
-            <div class="field">
-              <label for="access-code">Admin access code</label>
-              <input id="access-code" name="accessCode" type="password" placeholder="Enter admin code to elevate" autocomplete="off">
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-              <button class="btn small-btn" type="submit">Update role</button>
-              <span id="role-message" class="muted">Admins can publish, archive, and re-categorize posts.</span>
-            </div>
-          </form>
-          <ul class="tagline-list" style="margin-top:16px;">
-            <li><span class="badge">RBAC</span><strong>Admin</strong> users can publish and delete posts; <strong>Basic</strong> users browse only.</li>
-            <li><span class="badge">Categorized</span>Posts stay organized by Corporate, Projects, Safety, and Announcements.</li>
-            <li><span class="badge">Traceable</span>Inline timestamps and authorship hints keep governance in check.</li>
-          </ul>
-        </div>
-
-        <div class="panel">
-          <h3 style="margin-top:0;">Create &amp; categorize a post</h3>
-          <p class="muted">Admins publish instantly. Basic users see a read-only state.</p>
-          <form id="post-form" style="display:grid; gap:12px;">
-            <div class="field">
-              <label for="post-title">Headline</label>
-              <input id="post-title" name="title" type="text" placeholder="Ex: New glass atrium mobilization" required>
-            </div>
-            <div class="form-grid">
-              <div class="field">
-                <label for="post-category">Category</label>
-                <select id="post-category" name="category"></select>
-              </div>
-              <div class="field">
-                <label for="post-author">Owner</label>
-                <input id="post-author" name="author" type="text" placeholder="Your name" required>
-              </div>
-            </div>
-            <div class="field">
-              <label for="post-body">Summary</label>
-              <textarea id="post-body" name="body" placeholder="Key details or announcement copy" required></textarea>
-            </div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-              <button class="btn" type="submit" id="publish-btn">Publish post</button>
-              <span class="muted" id="post-hint">Only admins can publish or delete.</span>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <section id="updates" style="margin-top: 28px;">
-      <div class="accent-bar"></div>
-      <div class="panel" style="margin-bottom:14px;">
-        <h2 style="margin:0 0 10px;">Updates &amp; knowledge base</h2>
-        <p class="lead">Filter by category, review what shipped, and let admins curate the narrative.</p>
-        <div class="category-filter" id="category-filter"></div>
-      </div>
-      <div class="content-grid" style="align-items: stretch;">
-        <div class="panel" style="display:grid; gap:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-            <h3 style="margin:0;">Live posts</h3>
-            <span class="label" id="post-count">0 published</span>
-          </div>
-          <div id="post-list" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;"></div>
-        </div>
-        <div class="panel">
-          <h3 style="margin-top:0;">Operational quick facts</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Feature</th>
-                <th>Status</th>
-                <th>Owner</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Role-based access</td>
-                <td><span class="badge">Admin / Basic</span></td>
-                <td>Governance</td>
-              </tr>
-              <tr>
-                <td>Category taxonomy</td>
-                <td><span class="badge" style="background:rgba(245,200,66,0.16); color:#f9e9a6; border-color:rgba(245,200,66,0.4);">4 groups</span></td>
-                <td>Brand</td>
-              </tr>
-              <tr>
-                <td>Post lifecycle</td>
-                <td><span class="badge" style="background:rgba(94,225,161,0.16); color:#d5ffe9; border-color:rgba(94,225,161,0.4);">Draft → Published</span></td>
-                <td>PMO</td>
-              </tr>
-              <tr>
-                <td>Audit cues</td>
-                <td><span class="badge">Timestamps</span></td>
-                <td>Compliance</td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="muted" style="margin-top:6px;">Use the content hub to add posts, then tailor categories for corporate, project, safety, or announcement streams.</p>
-        </div>
-      </div>
-    </section>
-
     <section id="contact">
       <div class="contact">
         <div class="card" style="padding: 22px;">
@@ -868,220 +582,6 @@
       </div>
     </section>
   </main>
-
-  <script>
-    let lastX = 0;
-    let lastY = 0;
-
-    const parallaxNodes = document.querySelectorAll('[data-parallax]');
-    const overlayGrid = document.querySelector('.grid-overlay');
-    const revealCandidates = document.querySelectorAll('.stat-card, .card, .project-card, .panel, .contact-card');
-
-    revealCandidates.forEach(el => {
-      if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
-      el.classList.add('glass-animate', 'tilt');
-    });
-
-    const revealElements = document.querySelectorAll('[data-reveal]');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.2 });
-
-    revealElements.forEach(el => {
-      el.classList.add('reveal');
-      observer.observe(el);
-    });
-
-    function applyParallax(mouseX = lastX, mouseY = lastY, scrollY = window.scrollY) {
-      parallaxNodes.forEach(node => {
-        const depth = parseFloat(node.dataset.depth || '0.04');
-        const x = mouseX * depth;
-        const y = mouseY * depth + scrollY * depth * -0.4;
-        node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      });
-
-      if (overlayGrid) {
-        overlayGrid.style.transform = `translate3d(0, ${scrollY * -0.05}px, 0)`;
-      }
-    }
-
-    window.addEventListener('mousemove', (event) => {
-      const xFactor = (event.clientX / window.innerWidth - 0.5) * 36;
-      const yFactor = (event.clientY / window.innerHeight - 0.5) * 20;
-      lastX = xFactor;
-      lastY = yFactor;
-      window.requestAnimationFrame(() => applyParallax(xFactor, yFactor));
-    });
-
-    window.addEventListener('scroll', () => {
-      window.requestAnimationFrame(() => applyParallax());
-    });
-
-    applyParallax();
-  </script>
-
-  <script>
-    (function() {
-      const ADMIN_CODE = 'buildsecure';
-      const categories = ['Corporate', 'Projects', 'Safety', 'Announcements'];
-
-      const categoryFilterEl = document.getElementById('category-filter');
-      const postListEl = document.getElementById('post-list');
-      const postCountEl = document.getElementById('post-count');
-      const postForm = document.getElementById('post-form');
-      const roleForm = document.getElementById('role-form');
-      const currentRoleEl = document.getElementById('current-role');
-      const postHintEl = document.getElementById('post-hint');
-      const roleMessageEl = document.getElementById('role-message');
-      const categorySelect = document.getElementById('post-category');
-      const publishBtn = document.getElementById('publish-btn');
-
-      if (!postListEl) return;
-
-      const defaultPosts = [
-        { id: 1, title: 'Executive handover – Riyadh glass atrium', category: 'Projects', author: 'PMO Office', body: 'Facade is sealed, safety walk complete, turnover to client starts Monday.', date: '2024-12-04' },
-        { id: 2, title: 'Safety stand-down completed', category: 'Safety', author: 'HSE Lead', body: 'All crews briefed on new harness policy and elevated work permits.', date: '2025-01-12' },
-        { id: 3, title: 'Corporate sustainability pledge', category: 'Corporate', author: 'CEO', body: 'AlKahf signs on to lower embodied carbon via supplier scorecards.', date: '2025-02-18' },
-        { id: 4, title: 'Pre-qualification window open', category: 'Announcements', author: 'Bid Desk', body: 'Vendors can submit credentials for Q3 infrastructure package.', date: '2025-03-01' }
-      ];
-
-      let posts = [];
-      let activeRole = 'basic';
-      let activeFilter = 'All';
-
-      function loadPosts() {
-        const stored = localStorage.getItem('alkahf-posts');
-        posts = stored ? JSON.parse(stored) : defaultPosts;
-      }
-
-      function savePosts() {
-        localStorage.setItem('alkahf-posts', JSON.stringify(posts));
-      }
-
-      function populateCategories() {
-        categories.forEach(cat => {
-          const option = document.createElement('option');
-          option.value = cat;
-          option.textContent = cat;
-          categorySelect.appendChild(option);
-        });
-
-        ['All', ...categories].forEach(cat => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'chip-btn' + (cat === 'All' ? ' active' : '');
-          btn.dataset.value = cat;
-          btn.textContent = cat;
-          btn.addEventListener('click', () => {
-            activeFilter = cat;
-            document.querySelectorAll('.chip-btn').forEach(b => b.classList.toggle('active', b === btn));
-            renderPosts();
-          });
-          categoryFilterEl.appendChild(btn);
-        });
-      }
-
-      function applyRole(role) {
-        activeRole = role;
-        currentRoleEl.textContent = role === 'admin' ? 'Admin' : 'Basic user';
-        roleMessageEl.textContent = role === 'admin' ? 'Admin mode unlocked. Publishing enabled.' : 'View-only mode. Enter the code to elevate to admin.';
-        const disable = role !== 'admin';
-        publishBtn.disabled = disable;
-        postForm.classList.toggle('disabled', disable);
-        postForm.querySelectorAll('input, textarea, select').forEach(el => {
-          el.disabled = disable;
-        });
-        if (disable) {
-          postHintEl.textContent = 'Only admins can publish or delete.';
-        } else {
-          postHintEl.textContent = 'You can publish new posts or delete existing ones.';
-        }
-        renderPosts();
-      }
-
-      function renderPosts() {
-        postListEl.innerHTML = '';
-        const filtered = activeFilter === 'All' ? posts : posts.filter(p => p.category === activeFilter);
-        postCountEl.textContent = `${filtered.length} published`;
-
-        if (!filtered.length) {
-          const empty = document.createElement('div');
-          empty.className = 'card';
-          empty.textContent = 'No posts yet. Switch to Admin and publish your first update.';
-          postListEl.appendChild(empty);
-          return;
-        }
-
-        filtered.forEach(post => {
-          const card = document.createElement('div');
-          card.className = 'card';
-          card.innerHTML = `
-            <div class="badge" style="margin-bottom:8px;">${post.category}</div>
-            <h4 style="margin:0 0 6px;">${post.title}</h4>
-            <p class="muted" style="margin:0 0 10px;">${post.body}</p>
-            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
-              <span class="muted">${post.author} · ${new Date(post.date).toLocaleDateString()}</span>
-              ${activeRole === 'admin' ? '<button class="btn outline small-btn" data-delete="'+post.id+'">Delete</button>' : ''}
-            </div>
-          `;
-          postListEl.appendChild(card);
-        });
-
-        if (activeRole === 'admin') {
-          postListEl.querySelectorAll('[data-delete]').forEach(btn => {
-            btn.addEventListener('click', () => {
-              const id = Number(btn.getAttribute('data-delete'));
-              posts = posts.filter(p => p.id !== id);
-              savePosts();
-              renderPosts();
-            });
-          });
-        }
-      }
-
-      roleForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const selected = roleForm.role.value;
-        const code = roleForm.accessCode.value.trim();
-        if (selected === 'admin' && code !== ADMIN_CODE) {
-          roleMessageEl.textContent = 'Invalid admin code. Staying in basic mode.';
-          applyRole('basic');
-          return;
-        }
-        applyRole(selected === 'admin' ? 'admin' : 'basic');
-      });
-
-      postForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (activeRole !== 'admin') {
-          postHintEl.textContent = 'Publishing blocked: switch to admin with the access code.';
-          return;
-        }
-        const formData = new FormData(postForm);
-        const newPost = {
-          id: Date.now(),
-          title: formData.get('title'),
-          category: formData.get('category'),
-          author: formData.get('author'),
-          body: formData.get('body'),
-          date: new Date().toISOString().slice(0,10)
-        };
-        posts.unshift(newPost);
-        savePosts();
-        postForm.reset();
-        postHintEl.textContent = 'Published. Add another or switch categories to review.';
-        renderPosts();
-      });
-
-      loadPosts();
-      populateCategories();
-      applyRole('basic');
-    })();
-  </script>
 
   <footer>
     <div>
