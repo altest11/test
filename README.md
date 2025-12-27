@@ -1,19 +1,16 @@
-# Journal Poster Generator
+# AlKahf Construction — Laravel Experience
 
-A static, single-page web app that renders an A3 portrait academic poster with an Apple Liquid Glass aesthetic and exports the design to high-resolution PNG or PDF.
+A Laravel-based corporate experience for **AlKahf Construction**, pairing the existing glassmorphic design, parallax motion, and role-aware CMS controls with a proper application skeleton.
+
+## Features
+- Apple-inspired glass aesthetic with parallax hero, services, projects, delivery method, and executive CTA panels.
+- Client-side CMS controls (admin vs. basic roles) for categorized posts with inline publishing, filtering, and deletion.
+- Laravel-ready structure with routing, configuration stubs, environment template, and cached storage paths to extend the experience into a full app.
 
 ## Getting started
-1. Serve the folder (or open `index.html` directly). Using Python:
-   ```bash
-   python -m http.server 8000
-   ```
-2. Open `http://localhost:8000` in your browser.
+1. Copy the environment template: `cp .env.example .env`.
+2. Install dependencies (requires network access): `composer install`.
+3. Generate the app key: `php artisan key:generate`.
+4. Serve locally: `php artisan serve` then open `http://localhost:8000`.
 
-## Usage
-- The poster is previewed at a reduced scale for screens; the export runs at full A3 size (3508×4961 px, 300 DPI target).
-- Use **Download PNG (A3)** or **Download PDF (A3)** to export print-ready files. The capture routine removes preview scaling, renders with `html2canvas` (scale 2), and writes the A3-sized canvas to jsPDF.
-- Design tokens (colors, shadows, blur) are defined in the `<style>` block and implement the frosted glass look with `backdrop-filter`, translucent surfaces, and soft gradients.
-
-## Notes
-- All assets are pulled via CDN (`html2canvas`, `jsPDF`, and Inter font), so no build tooling is required.
-- Print styles hide the control bar and disable scaling for direct printing.
+> The front-end experience is rendered from `resources/views/home.blade.php`. Adjust it or layer server-driven data as needed.
