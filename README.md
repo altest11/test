@@ -8,11 +8,9 @@ A single-page, glass-inspired corporate site for **AlKahf Construction**. The de
 - Contact and executive hotline panels with glassmorphic cards
 - Responsive layout built with pure HTML and CSS (Inter font via Google Fonts)
 
-## Getting started
-1. Serve the folder (or open `index.html` directly). Using Python:
-   ```bash
-   python -m http.server 8000
-   ```
-2. Open `http://localhost:8000` in your browser.
+## Features
+- Apple-inspired glass aesthetic with parallax hero, services, projects, delivery method, and executive CTA panels.
+- Client-side CMS controls (admin vs. basic roles) for categorized posts with inline publishing, filtering, and deletion.
+- Laravel-ready structure with routing, configuration stubs, environment template, and cached storage paths to extend the experience into a full app.
 
 No build tooling or dependencies are required.

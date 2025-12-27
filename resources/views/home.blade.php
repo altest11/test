@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlKahf Construction | Building with Precision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --red: #c52233;
+      --gold: #d4af37;
+      --yellow: #f5c842;
+      --dark: #0f0f11;
+      --muted: #1f1f23;
+      --text: #f5f7fa;
+      --glass: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(197,34,51,0.25), transparent 35%),
+                  radial-gradient(circle at 80% 0%, rgba(244,192,66,0.25), transparent 30%),
+                  radial-gradient(circle at 10% 70%, rgba(212,175,55,0.18), transparent 30%),
+                  linear-gradient(120deg, #0b0c0e, #15171c 40%, #0b0c0e);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      perspective: 1200px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 120px 120px;
+      opacity: 0.18;
+      pointer-events: none;
+      transition: transform 0.25s ease;
+    }
+
+    .glow-rings,
+    .glass-rays {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.35;
+      filter: blur(12px);
+    }
+
+    .glow-rings { background: radial-gradient(circle at 18% 30%, rgba(245,200,66,0.24), transparent 32%), radial-gradient(circle at 82% 20%, rgba(197,34,51,0.2), transparent 30%); }
+    .glass-rays { background: conic-gradient(from 120deg, rgba(255,255,255,0.25), transparent 30%, rgba(255,255,255,0.12), transparent 80%); mask: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0)); }
+
+    .shine-trail {
+      position: absolute;
+      inset: -40% -20%;
+      background: linear-gradient(110deg, rgba(255,255,255,0.18), transparent 35%);
+      transform: rotate(8deg);
+      animation: sweep 14s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .pulse-glow {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.25), transparent 60%);
+      filter: blur(10px);
+      animation: float 12s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .glass-animate::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 45%, rgba(255,255,255,0.12) 60%, transparent 75%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      animation: glint 8s linear infinite;
+      pointer-events: none;
+    }
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(197,34,51,0.55), rgba(15,15,17,0.4));
+      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+      filter: saturate(1.1);
+      opacity: 0.7;
+      transition: transform 0.2s ease;
+    }
+
+    .floating-shape.gold { background: linear-gradient(145deg, rgba(212,175,55,0.6), rgba(15,15,17,0.35)); }
+    .floating-shape.tiny { width: 18px; height: 18px; }
+    .floating-shape.small { width: 44px; height: 44px; }
+    .floating-shape.medium { width: 92px; height: 92px; }
+
+    @keyframes sweep { to { transform: translateX(30%) rotate(8deg); opacity: 0.8; } }
+    @keyframes float { 0%, 100% { transform: translate3d(0, -6px, 0); } 50% { transform: translate3d(0, 12px, 0); } }
+    @keyframes glint { 10% { opacity: 0; transform: translateX(-15%); } 40% { opacity: 0.65; } 70% { opacity: 0; transform: translateX(25%); } 100% { opacity: 0; } }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(10, 10, 12, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, var(--red), #8f1623);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.5), transparent 60%);
+      mix-blend-mode: screen;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: #dbe1ec;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--glass);
+      color: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(197,34,51,0.8), rgba(197,34,51,0.55));
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, rgba(212,175,55,0.8), rgba(245,200,66,0.7));
+      color: #0a0a0d;
+      box-shadow: 0 18px 36px rgba(212,175,55,0.25);
+    }
+
+    .btn.outline {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    main { max-width: 1200px; margin: 0 auto; padding: 40px 22px 80px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 48px;
+      margin-top: 28px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px) saturate(140%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 25% 25%, rgba(245,200,66,0.15), transparent 35%),
+                  radial-gradient(circle at 80% 60%, rgba(197,34,51,0.18), transparent 35%);
+      pointer-events: none;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      margin: 0 0 18px;
+      line-height: 1.1;
+      color: #fff;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-content p {
+      color: #d2d7e2;
+      margin: 0 0 24px;
+      font-size: 1.05rem;
+      max-width: 620px;
+    }
+
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(197,34,51,0.12);
+      border: 1px solid rgba(197,34,51,0.5);
+      border-radius: 999px;
+      color: #ffd1d7;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+
+    .hero-visual {
+      position: relative;
+      border-radius: 24px;
+      padding: 26px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+      overflow: hidden;
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(212,175,55,0.12), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .stats {
+      margin: 38px 0 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card, .card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px) saturate(130%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before, .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 60%);
+      pointer-events: none;
+    }
+
+    .stat-card h3 { margin: 0; font-size: 1.1rem; color: #e8ecf3; }
+    .stat-card p { margin: 8px 0 0; color: #c5c9d1; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--gold); }
+
+    .tilt:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+    .tilt { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+
+    .reveal { opacity: 0; transform: translateY(26px) scale(0.98); transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+    [data-reveal][data-delay="fast"] { transition-delay: 0.05s; }
+    [data-reveal][data-delay="mid"] { transition-delay: 0.15s; }
+    [data-reveal][data-delay="slow"] { transition-delay: 0.3s; }
+
+    section { margin: 60px 0; }
+
+    section h2 {
+      font-size: 1.8rem;
+      margin: 0 0 14px;
+      letter-spacing: 0.01em;
+    }
+
+    section p.lead {
+      margin: 0 0 24px;
+      color: #cbd1dc;
+      max-width: 720px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .card h3 { margin: 0 0 10px; color: #f2f4f9; }
+    .card p { margin: 0; color: #cdd2dc; line-height: 1.55; }
+
+    .chip {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(212,175,55,0.14);
+      color: #f8e7a8;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: 1px solid rgba(212,175,55,0.4);
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .project-card {
+      background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .project-img {
+      height: 170px;
+      background: linear-gradient(120deg, rgba(197,34,51,0.8), rgba(15,15,17,0.8)),
+                  linear-gradient(90deg, rgba(212,175,55,0.6), transparent 60%);
+      position: relative;
+    }
+
+    .project-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.55));
+    }
+
+    .project-body { padding: 16px; }
+    .project-body h3 { margin: 0 0 6px; }
+    .project-body p { margin: 0; color: #cbd1dc; }
+
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .badge { padding: 6px 10px; border-radius: 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #e6e9f0; font-size: 0.85rem; }
+
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: center; }
+
+    .list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+    .list li { display: flex; gap: 10px; align-items: flex-start; color: #d6dbe6; }
+    .list strong { color: #fff; }
+
+    .contact {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 2fr 1.2fr;
+      align-items: center;
+    }
+
+    .contact-card {
+      background: linear-gradient(120deg, rgba(197,34,51,0.9), rgba(197,34,51,0.7));
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 28px 50px rgba(197,34,51,0.3);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.25), transparent 60%);
+      pointer-events: none;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 22px;
+      color: #c7cbd5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .accent-bar {
+      width: 120px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      margin-bottom: 12px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px) saturate(140%);
+    }
+
+    .panel h3 { margin: 0 0 10px; }
+    .panel p { margin: 0 0 12px; color: #d7dce7; }
+
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: #f2f4f9; font-weight: 600; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+
+    .field { display: grid; gap: 6px; }
+    .field label { font-weight: 600; color: #f5f7fa; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: #f3f6fb;
+      font-size: 1rem;
+    }
+
+    .field textarea { min-height: 120px; resize: vertical; }
+
+    .status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .status .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #5ee1a1;
+      box-shadow: 0 0 0 6px rgba(94,225,161,0.15);
+    }
+
+    .small-btn { padding: 10px 12px; font-size: 0.92rem; }
+
+    .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .table thead { text-align: left; color: #d6dbe6; font-size: 0.9rem; }
+    .table th, .table td { padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .table tbody tr:last-child td { border-bottom: none; }
+
+    .label { padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); font-weight: 600; font-size: 0.85rem; }
+
+    .category-filter { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .chip-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: #f2f4f9;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .chip-btn.active { background: linear-gradient(135deg, rgba(212,175,55,0.6), rgba(245,200,66,0.7)); color: #0d0d0f; }
+
+    .muted { color: #c8cede; font-size: 0.95rem; }
+
+    .tagline-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .tagline-list li { display: flex; gap: 10px; align-items: center; }
+    .tagline-list strong { color: #fff; }
+
+    .disabled { opacity: 0.5; pointer-events: none; }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; padding: 32px; }
+      nav { flex-wrap: wrap; gap: 12px 18px; }
+      .nav-links { flex-wrap: wrap; }
+      .content-grid { grid-template-columns: 1fr; }
+      .contact { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 12px 16px; }
+      .hero, main { padding: 18px; }
+      .hero { margin-top: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="glow-rings" aria-hidden="true" data-parallax data-depth="0.02"></div>
+  <div class="glass-rays" aria-hidden="true" data-parallax data-depth="0.035"></div>
+  <header>
+    <nav>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 17V7l8-4 8 4v10l-8 4-8-4Z" stroke="#f8f8fb" stroke-width="1.6"/>
+            <path d="M8 14.5v-5l4-2 4 2v5l-4 2-4-2Z" fill="#f5c842" opacity="0.9"/>
+            <path d="M12 12.5v-3" stroke="#c52233" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span>AlKahf Construction</span>
+      </div>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#content-hub">Content</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#updates">Updates</a>
+        <a href="#contact" class="btn outline">Request Proposal</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero glass-animate tilt" id="top" data-reveal>
+      <div class="shine-trail" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="tagline">Precision. Strength. Legacy.</div>
+        <h1>Building future-ready spaces with a glasslike, modern elegance.</h1>
+        <p>AlKahf Construction delivers landmark commercial and infrastructure projects with uncompromising safety, precision engineering, and a signature glass aesthetic that reflects your ambition.</p>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+          <a class="btn" href="#projects">View our portfolio</a>
+          <a class="btn secondary" href="#contact">Schedule a consultation</a>
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-value">25+</div>
+            <h3>Years of excellence</h3>
+            <p>Delivering high-spec builds across the region.</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">180</div>
+            <h3>Completed projects</h3>
+            <p>Commercial, civic, and industrial milestones.</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">0.92</div>
+            <h3>Safety index</h3>
+            <p>Beyond global benchmarks for workforce safety.</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual glass-animate tilt" data-reveal data-delay="fast">
+        <div class="pulse-glow" style="top:-80px; right:-60px;" aria-hidden="true" data-parallax data-depth="0.07"></div>
+        <div class="floating-shape medium gold" style="top:-10px; left:-18px;" aria-hidden="true" data-parallax data-depth="0.05"></div>
+        <div class="floating-shape small" style="bottom:18px; right:18px;" aria-hidden="true" data-parallax data-depth="0.09"></div>
+        <div class="accent-bar"></div>
+        <h3 style="margin:0 0 10px;">Signature delivery framework</h3>
+        <p style="color:#d0d6df; margin:0 0 16px;">From pre-construction strategy to turnkey commissioning, our teams integrate digital twins, modular systems, and glass-forward facades that stand the test of time.</p>
+        <ul class="list">
+          <li><span class="chip">Design–Build</span><span>Integrated architecture, structural engineering, and execution under one accountable team.</span></li>
+          <li><span class="chip">Quality</span><span>Material provenance tracking, on-site labs, and ISO-aligned QA/QC for every pour, panel, and weld.</span></li>
+          <li><span class="chip">Sustainability</span><span>LEED-oriented envelopes, high-performance glazing, and energy models tuned for your climate.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="services">
+      <h2>What we build</h2>
+      <p class="lead">Sophisticated structures that blend glass elegance with resilient cores—delivered on time, on budget, and with executive-grade transparency.</p>
+      <div class="card-grid">
+        <div class="card glass-animate tilt" data-reveal data-delay="fast">
+          <div class="chip" style="background:rgba(197,34,51,0.16); color:#ffd1d7; border-color:rgba(197,34,51,0.45);">Commercial Flagships</div>
+          <h3>Corporate towers & HQs</h3>
+          <p>Iconic skylines with curtain-wall systems, grand lobbies, and smart building automation for modern enterprises.</p>
+        </div>
+        <div class="card glass-animate tilt" data-reveal>
+          <div class="chip">Public Infrastructure</div>
+          <h3>Transit & civic assets</h3>
+          <p>Terminals, bridges, and civic campuses engineered for longevity, clarity of wayfinding, and occupant comfort.</p>
+        </div>
+        <div class="card glass-animate tilt" data-reveal data-delay="mid">
+          <div class="chip" style="background:rgba(245,200,66,0.18); color:#0d0d0f; border-color:rgba(245,200,66,0.5);">Design-Build</div>
+          <h3>Turnkey project delivery</h3>
+          <p>Unified planning, BIM coordination, and rapid execution with a single accountable partner from concept to commissioning.</p>
+        </div>
+        <div class="card glass-animate tilt" data-reveal data-delay="slow">
+          <div class="chip" style="background:rgba(212,175,55,0.16); color:#f9e8b4; border-color:rgba(212,175,55,0.42);">Adaptive Reuse</div>
+          <h3>Modernizing legacy assets</h3>
+          <p>Transforming structures with seismic upgrades, glass atriums, and sustainability retrofits that respect their heritage.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>Featured builds</h2>
+      <p class="lead">A portfolio spanning glass-wrapped landmarks, resilient industrial hubs, and human-centered public spaces.</p>
+      <div class="projects">
+        <div class="project-card glass-animate tilt" data-reveal>
+          <div class="project-img"></div>
+          <div class="project-body">
+            <h3>Skyline One</h3>
+            <p>44-story headquarters with triple-glazed facade, radiant atrium, and executive sky garden.</p>
+            <div class="badges">
+              <span class="badge">LEED Gold</span>
+              <span class="badge">BIM Level 3</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card glass-animate tilt" data-reveal data-delay="mid">
+          <div class="project-img" style="background: linear-gradient(120deg, rgba(245,200,66,0.85), rgba(15,15,17,0.85)), linear-gradient(90deg, rgba(197,34,51,0.65), transparent 60%);"></div>
+          <div class="project-body">
+            <h3>Harbor Link Terminal</h3>
+            <p>Multi-modal transport hub with daylight-rich concourses and resilient marine-grade structures.</p>
+            <div class="badges">
+              <span class="badge">Integrated Wayfinding</span>
+              <span class="badge">Seismic Cat. IV</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background: linear-gradient(120deg, rgba(90,93,104,0.85), rgba(15,15,17,0.9)), linear-gradient(90deg, rgba(212,175,55,0.55), transparent 60%);"></div>
+          <div class="project-body">
+            <h3>Industrial Nexus</h3>
+            <p>Advanced manufacturing campus with modular bays, high-span cranes, and insulated glass control centers.</p>
+            <div class="badges">
+              <span class="badge">24/7 Operations</span>
+              <span class="badge">Smart Monitoring</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="expertise" class="two-col" style="align-items: stretch;">
+      <div>
+        <h2>How we deliver</h2>
+        <p class="lead">Executive clarity, disciplined safety, and meticulous craftsmanship—reinforced by digital oversight and material traceability.</p>
+        <ul class="list">
+          <li><span class="chip">Executive reporting</span>Transparent dashboards, milestone tracking, and proactive risk mitigation.</li>
+          <li><span class="chip" style="background:rgba(197,34,51,0.16); color:#ffd1d7; border-color:rgba(197,34,51,0.45);">Safety first</span>Behavior-based safety, certified crews, and continuous monitoring exceeding industry benchmarks.</li>
+          <li><span class="chip">Glass-forward design</span>Custom curtain walls, point-supported glazing, and dramatic skylights engineered for local climates.</li>
+          <li><span class="chip" style="background:rgba(245,200,66,0.18); color:#0d0d0f; border-color:rgba(245,200,66,0.5);">Sustainability</span>Envelope performance modeling, energy recovery systems, and low-carbon materials.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;">Project assurance stack</h3>
+        <p>Aligned with ISO and global best practices, our integrated assurance stack gives stakeholders confidence from day one.</p>
+        <div class="badges" style="margin:14px 0;">
+          <span class="badge">BIM coordination</span>
+          <span class="badge">Digital twins</span>
+          <span class="badge">Prefabrication</span>
+          <span class="badge">Commissioning</span>
+        </div>
+        <p style="margin:0; color:#d3d7e0;">Expect crisp communication, rigorous inspections, and a leadership team that treats your investment like its own.</p>
+      </div>
+    </section>
+
+    <section id="content-hub" style="margin-top: 28px;">
+      <div class="accent-bar"></div>
+      <div class="content-grid">
+        <div class="panel">
+          <h2 style="margin-top:0;">Content hub &amp; role control</h2>
+          <p class="lead">Operate like a newsroom—control who can post, what gets published, and keep corporate guardrails intact.</p>
+          <div class="status">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <div style="font-weight:700;">Current role: <span id="current-role">Basic user</span></div>
+              <div class="muted">Admin access code protects publishing workflows.</div>
+            </div>
+          </div>
+          <form id="role-form" style="margin-top:14px; display:grid; gap:12px;">
+            <div class="form-grid">
+              <label class="pill" style="cursor:pointer;">
+                <input type="radio" name="role" value="basic" style="accent-color: var(--red);" checked> Basic user
+              </label>
+              <label class="pill" style="cursor:pointer;">
+                <input type="radio" name="role" value="admin" style="accent-color: var(--gold);"> Admin (secure)
+              </label>
+            </div>
+            <div class="field">
+              <label for="access-code">Admin access code</label>
+              <input id="access-code" name="accessCode" type="password" placeholder="Enter admin code to elevate" autocomplete="off">
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <button class="btn small-btn" type="submit">Update role</button>
+              <span id="role-message" class="muted">Admins can publish, archive, and re-categorize posts.</span>
+            </div>
+          </form>
+          <ul class="tagline-list" style="margin-top:16px;">
+            <li><span class="badge">RBAC</span><strong>Admin</strong> users can publish and delete posts; <strong>Basic</strong> users browse only.</li>
+            <li><span class="badge">Categorized</span>Posts stay organized by Corporate, Projects, Safety, and Announcements.</li>
+            <li><span class="badge">Traceable</span>Inline timestamps and authorship hints keep governance in check.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3 style="margin-top:0;">Create &amp; categorize a post</h3>
+          <p class="muted">Admins publish instantly. Basic users see a read-only state.</p>
+          <form id="post-form" style="display:grid; gap:12px;">
+            <div class="field">
+              <label for="post-title">Headline</label>
+              <input id="post-title" name="title" type="text" placeholder="Ex: New glass atrium mobilization" required>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="post-category">Category</label>
+                <select id="post-category" name="category"></select>
+              </div>
+              <div class="field">
+                <label for="post-author">Owner</label>
+                <input id="post-author" name="author" type="text" placeholder="Your name" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="post-body">Summary</label>
+              <textarea id="post-body" name="body" placeholder="Key details or announcement copy" required></textarea>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+              <button class="btn" type="submit" id="publish-btn">Publish post</button>
+              <span class="muted" id="post-hint">Only admins can publish or delete.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="updates" style="margin-top: 28px;">
+      <div class="accent-bar"></div>
+      <div class="panel" style="margin-bottom:14px;">
+        <h2 style="margin:0 0 10px;">Updates &amp; knowledge base</h2>
+        <p class="lead">Filter by category, review what shipped, and let admins curate the narrative.</p>
+        <div class="category-filter" id="category-filter"></div>
+      </div>
+      <div class="content-grid" style="align-items: stretch;">
+        <div class="panel" style="display:grid; gap:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <h3 style="margin:0;">Live posts</h3>
+            <span class="label" id="post-count">0 published</span>
+          </div>
+          <div id="post-list" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;"></div>
+        </div>
+        <div class="panel">
+          <h3 style="margin-top:0;">Operational quick facts</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Status</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Role-based access</td>
+                <td><span class="badge">Admin / Basic</span></td>
+                <td>Governance</td>
+              </tr>
+              <tr>
+                <td>Category taxonomy</td>
+                <td><span class="badge" style="background:rgba(245,200,66,0.16); color:#f9e9a6; border-color:rgba(245,200,66,0.4);">4 groups</span></td>
+                <td>Brand</td>
+              </tr>
+              <tr>
+                <td>Post lifecycle</td>
+                <td><span class="badge" style="background:rgba(94,225,161,0.16); color:#d5ffe9; border-color:rgba(94,225,161,0.4);">Draft → Published</span></td>
+                <td>PMO</td>
+              </tr>
+              <tr>
+                <td>Audit cues</td>
+                <td><span class="badge">Timestamps</span></td>
+                <td>Compliance</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="muted" style="margin-top:6px;">Use the content hub to add posts, then tailor categories for corporate, project, safety, or announcement streams.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact">
+        <div class="card" style="padding: 22px;">
+          <h2>Ready to build?</h2>
+          <p class="lead">Tell us about your vision. Our executive team will respond within one business day with a tailored plan.</p>
+          <div class="list">
+            <li><strong>Email</strong> — engage@alkahf.build</li>
+            <li><strong>Phone</strong> — +971 (0)4 555 2231</li>
+            <li><strong>Offices</strong> — Dubai · Riyadh · Muscat</li>
+          </div>
+          <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="btn" href="mailto:engage@alkahf.build">Start a conversation</a>
+            <a class="btn outline" href="#projects">Review credentials</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <h3 style="margin-top:0;">Executive hotline</h3>
+          <p style="margin:10px 0 16px;">For time-sensitive opportunities, speak directly with our leadership.</p>
+          <div style="display:grid; gap:8px;">
+            <div><strong>24/7</strong> — +971 (0)50 123 4499</div>
+            <div><strong>Bid desk</strong> — tenders@alkahf.build</div>
+            <div><strong>Media</strong> — press@alkahf.build</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let lastX = 0;
+    let lastY = 0;
+
+    const parallaxNodes = document.querySelectorAll('[data-parallax]');
+    const overlayGrid = document.querySelector('.grid-overlay');
+    const revealCandidates = document.querySelectorAll('.stat-card, .card, .project-card, .panel, .contact-card');
+
+    revealCandidates.forEach(el => {
+      if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
+      el.classList.add('glass-animate', 'tilt');
+    });
+
+    const revealElements = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    revealElements.forEach(el => {
+      el.classList.add('reveal');
+      observer.observe(el);
+    });
+
+    function applyParallax(mouseX = lastX, mouseY = lastY, scrollY = window.scrollY) {
+      parallaxNodes.forEach(node => {
+        const depth = parseFloat(node.dataset.depth || '0.04');
+        const x = mouseX * depth;
+        const y = mouseY * depth + scrollY * depth * -0.4;
+        node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+
+      if (overlayGrid) {
+        overlayGrid.style.transform = `translate3d(0, ${scrollY * -0.05}px, 0)`;
+      }
+    }
+
+    window.addEventListener('mousemove', (event) => {
+      const xFactor = (event.clientX / window.innerWidth - 0.5) * 36;
+      const yFactor = (event.clientY / window.innerHeight - 0.5) * 20;
+      lastX = xFactor;
+      lastY = yFactor;
+      window.requestAnimationFrame(() => applyParallax(xFactor, yFactor));
+    });
+
+    window.addEventListener('scroll', () => {
+      window.requestAnimationFrame(() => applyParallax());
+    });
+
+    applyParallax();
+  </script>
+
+  <script>
+    (function() {
+      const ADMIN_CODE = 'buildsecure';
+      const categories = ['Corporate', 'Projects', 'Safety', 'Announcements'];
+
+      const categoryFilterEl = document.getElementById('category-filter');
+      const postListEl = document.getElementById('post-list');
+      const postCountEl = document.getElementById('post-count');
+      const postForm = document.getElementById('post-form');
+      const roleForm = document.getElementById('role-form');
+      const currentRoleEl = document.getElementById('current-role');
+      const postHintEl = document.getElementById('post-hint');
+      const roleMessageEl = document.getElementById('role-message');
+      const categorySelect = document.getElementById('post-category');
+      const publishBtn = document.getElementById('publish-btn');
+
+      if (!postListEl) return;
+
+      const defaultPosts = [
+        { id: 1, title: 'Executive handover – Riyadh glass atrium', category: 'Projects', author: 'PMO Office', body: 'Facade is sealed, safety walk complete, turnover to client starts Monday.', date: '2024-12-04' },
+        { id: 2, title: 'Safety stand-down completed', category: 'Safety', author: 'HSE Lead', body: 'All crews briefed on new harness policy and elevated work permits.', date: '2025-01-12' },
+        { id: 3, title: 'Corporate sustainability pledge', category: 'Corporate', author: 'CEO', body: 'AlKahf signs on to lower embodied carbon via supplier scorecards.', date: '2025-02-18' },
+        { id: 4, title: 'Pre-qualification window open', category: 'Announcements', author: 'Bid Desk', body: 'Vendors can submit credentials for Q3 infrastructure package.', date: '2025-03-01' }
+      ];
+
+      let posts = [];
+      let activeRole = 'basic';
+      let activeFilter = 'All';
+
+      function loadPosts() {
+        const stored = localStorage.getItem('alkahf-posts');
+        posts = stored ? JSON.parse(stored) : defaultPosts;
+      }
+
+      function savePosts() {
+        localStorage.setItem('alkahf-posts', JSON.stringify(posts));
+      }
+
+      function populateCategories() {
+        categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat;
+          option.textContent = cat;
+          categorySelect.appendChild(option);
+        });
+
+        ['All', ...categories].forEach(cat => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'chip-btn' + (cat === 'All' ? ' active' : '');
+          btn.dataset.value = cat;
+          btn.textContent = cat;
+          btn.addEventListener('click', () => {
+            activeFilter = cat;
+            document.querySelectorAll('.chip-btn').forEach(b => b.classList.toggle('active', b === btn));
+            renderPosts();
+          });
+          categoryFilterEl.appendChild(btn);
+        });
+      }
+
+      function applyRole(role) {
+        activeRole = role;
+        currentRoleEl.textContent = role === 'admin' ? 'Admin' : 'Basic user';
+        roleMessageEl.textContent = role === 'admin' ? 'Admin mode unlocked. Publishing enabled.' : 'View-only mode. Enter the code to elevate to admin.';
+        const disable = role !== 'admin';
+        publishBtn.disabled = disable;
+        postForm.classList.toggle('disabled', disable);
+        postForm.querySelectorAll('input, textarea, select').forEach(el => {
+          el.disabled = disable;
+        });
+        if (disable) {
+          postHintEl.textContent = 'Only admins can publish or delete.';
+        } else {
+          postHintEl.textContent = 'You can publish new posts or delete existing ones.';
+        }
+        renderPosts();
+      }
+
+      function renderPosts() {
+        postListEl.innerHTML = '';
+        const filtered = activeFilter === 'All' ? posts : posts.filter(p => p.category === activeFilter);
+        postCountEl.textContent = `${filtered.length} published`;
+
+        if (!filtered.length) {
+          const empty = document.createElement('div');
+          empty.className = 'card';
+          empty.textContent = 'No posts yet. Switch to Admin and publish your first update.';
+          postListEl.appendChild(empty);
+          return;
+        }
+
+        filtered.forEach(post => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="badge" style="margin-bottom:8px;">${post.category}</div>
+            <h4 style="margin:0 0 6px;">${post.title}</h4>
+            <p class="muted" style="margin:0 0 10px;">${post.body}</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span class="muted">${post.author} · ${new Date(post.date).toLocaleDateString()}</span>
+              ${activeRole === 'admin' ? '<button class="btn outline small-btn" data-delete="'+post.id+'">Delete</button>' : ''}
+            </div>
+          `;
+          postListEl.appendChild(card);
+        });
+
+        if (activeRole === 'admin') {
+          postListEl.querySelectorAll('[data-delete]').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const id = Number(btn.getAttribute('data-delete'));
+              posts = posts.filter(p => p.id !== id);
+              savePosts();
+              renderPosts();
+            });
+          });
+        }
+      }
+
+      roleForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const selected = roleForm.role.value;
+        const code = roleForm.accessCode.value.trim();
+        if (selected === 'admin' && code !== ADMIN_CODE) {
+          roleMessageEl.textContent = 'Invalid admin code. Staying in basic mode.';
+          applyRole('basic');
+          return;
+        }
+        applyRole(selected === 'admin' ? 'admin' : 'basic');
+      });
+
+      postForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (activeRole !== 'admin') {
+          postHintEl.textContent = 'Publishing blocked: switch to admin with the access code.';
+          return;
+        }
+        const formData = new FormData(postForm);
+        const newPost = {
+          id: Date.now(),
+          title: formData.get('title'),
+          category: formData.get('category'),
+          author: formData.get('author'),
+          body: formData.get('body'),
+          date: new Date().toISOString().slice(0,10)
+        };
+        posts.unshift(newPost);
+        savePosts();
+        postForm.reset();
+        postHintEl.textContent = 'Published. Add another or switch categories to review.';
+        renderPosts();
+      });
+
+      loadPosts();
+      populateCategories();
+      applyRole('basic');
+    })();
+  </script>
+
+  <footer>
+    <div>
+      <strong>AlKahf Construction</strong> · Building enduring, glass-forward spaces across the region.
+    </div>
+    <div style="display:flex; gap:12px;">
+      <a href="#top" style="color:#f2f4f9; text-decoration:none;">Back to top</a>
+    </div>
+  </footer>
+</body>
+</html>
