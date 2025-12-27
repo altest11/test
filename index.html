@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    html { scroll-behavior: smooth; }
+
     :root {
       --red: #c52233;
       --gold: #d4af37;
@@ -33,6 +35,7 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      perspective: 1200px;
     }
 
     body::before {
@@ -51,7 +54,72 @@
       background-size: 120px 120px;
       opacity: 0.18;
       pointer-events: none;
+      transition: transform 0.25s ease;
     }
+
+    .glow-rings,
+    .glass-rays {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.35;
+      filter: blur(12px);
+    }
+
+    .glow-rings { background: radial-gradient(circle at 18% 30%, rgba(245,200,66,0.24), transparent 32%), radial-gradient(circle at 82% 20%, rgba(197,34,51,0.2), transparent 30%); }
+    .glass-rays { background: conic-gradient(from 120deg, rgba(255,255,255,0.25), transparent 30%, rgba(255,255,255,0.12), transparent 80%); mask: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0)); }
+
+    .shine-trail {
+      position: absolute;
+      inset: -40% -20%;
+      background: linear-gradient(110deg, rgba(255,255,255,0.18), transparent 35%);
+      transform: rotate(8deg);
+      animation: sweep 14s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .pulse-glow {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.25), transparent 60%);
+      filter: blur(10px);
+      animation: float 12s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .glass-animate::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 45%, rgba(255,255,255,0.12) 60%, transparent 75%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      animation: glint 8s linear infinite;
+      pointer-events: none;
+    }
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(197,34,51,0.55), rgba(15,15,17,0.4));
+      box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+      filter: saturate(1.1);
+      opacity: 0.7;
+      transition: transform 0.2s ease;
+    }
+
+    .floating-shape.gold { background: linear-gradient(145deg, rgba(212,175,55,0.6), rgba(15,15,17,0.35)); }
+    .floating-shape.tiny { width: 18px; height: 18px; }
+    .floating-shape.small { width: 44px; height: 44px; }
+    .floating-shape.medium { width: 92px; height: 92px; }
+
+    @keyframes sweep { to { transform: translateX(30%) rotate(8deg); opacity: 0.8; } }
+    @keyframes float { 0%, 100% { transform: translate3d(0, -6px, 0); } 50% { transform: translate3d(0, 12px, 0); } }
+    @keyframes glint { 10% { opacity: 0; transform: translateX(-15%); } 40% { opacity: 0.65; } 70% { opacity: 0; transform: translateX(25%); } 100% { opacity: 0; } }
 
     header {
       position: sticky;
@@ -264,6 +332,15 @@
     .stat-card h3 { margin: 0; font-size: 1.1rem; color: #e8ecf3; }
     .stat-card p { margin: 8px 0 0; color: #c5c9d1; }
     .stat-value { font-size: 2rem; font-weight: 700; color: var(--gold); }
+
+    .tilt:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+    .tilt { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+
+    .reveal { opacity: 0; transform: translateY(26px) scale(0.98); transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+    [data-reveal][data-delay="fast"] { transition-delay: 0.05s; }
+    [data-reveal][data-delay="mid"] { transition-delay: 0.15s; }
+    [data-reveal][data-delay="slow"] { transition-delay: 0.3s; }
 
     section { margin: 60px 0; }
 
@@ -482,6 +559,8 @@
 </head>
 <body>
   <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="glow-rings" aria-hidden="true" data-parallax data-depth="0.02"></div>
+  <div class="glass-rays" aria-hidden="true" data-parallax data-depth="0.035"></div>
   <header>
     <nav>
       <div class="brand">
@@ -506,7 +585,8 @@
   </header>
 
   <main>
-    <section class="hero" id="top">
+    <section class="hero glass-animate tilt" id="top" data-reveal>
+      <div class="shine-trail" aria-hidden="true"></div>
       <div class="hero-content">
         <div class="tagline">Precision. Strength. Legacy.</div>
         <h1>Building future-ready spaces with a glasslike, modern elegance.</h1>
@@ -533,7 +613,10 @@
           </div>
         </div>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual glass-animate tilt" data-reveal data-delay="fast">
+        <div class="pulse-glow" style="top:-80px; right:-60px;" aria-hidden="true" data-parallax data-depth="0.07"></div>
+        <div class="floating-shape medium gold" style="top:-10px; left:-18px;" aria-hidden="true" data-parallax data-depth="0.05"></div>
+        <div class="floating-shape small" style="bottom:18px; right:18px;" aria-hidden="true" data-parallax data-depth="0.09"></div>
         <div class="accent-bar"></div>
         <h3 style="margin:0 0 10px;">Signature delivery framework</h3>
         <p style="color:#d0d6df; margin:0 0 16px;">From pre-construction strategy to turnkey commissioning, our teams integrate digital twins, modular systems, and glass-forward facades that stand the test of time.</p>
@@ -549,22 +632,22 @@
       <h2>What we build</h2>
       <p class="lead">Sophisticated structures that blend glass elegance with resilient cores—delivered on time, on budget, and with executive-grade transparency.</p>
       <div class="card-grid">
-        <div class="card">
+        <div class="card glass-animate tilt" data-reveal data-delay="fast">
           <div class="chip" style="background:rgba(197,34,51,0.16); color:#ffd1d7; border-color:rgba(197,34,51,0.45);">Commercial Flagships</div>
           <h3>Corporate towers & HQs</h3>
           <p>Iconic skylines with curtain-wall systems, grand lobbies, and smart building automation for modern enterprises.</p>
         </div>
-        <div class="card">
+        <div class="card glass-animate tilt" data-reveal>
           <div class="chip">Public Infrastructure</div>
           <h3>Transit & civic assets</h3>
           <p>Terminals, bridges, and civic campuses engineered for longevity, clarity of wayfinding, and occupant comfort.</p>
         </div>
-        <div class="card">
+        <div class="card glass-animate tilt" data-reveal data-delay="mid">
           <div class="chip" style="background:rgba(245,200,66,0.18); color:#0d0d0f; border-color:rgba(245,200,66,0.5);">Design-Build</div>
           <h3>Turnkey project delivery</h3>
           <p>Unified planning, BIM coordination, and rapid execution with a single accountable partner from concept to commissioning.</p>
         </div>
-        <div class="card">
+        <div class="card glass-animate tilt" data-reveal data-delay="slow">
           <div class="chip" style="background:rgba(212,175,55,0.16); color:#f9e8b4; border-color:rgba(212,175,55,0.42);">Adaptive Reuse</div>
           <h3>Modernizing legacy assets</h3>
           <p>Transforming structures with seismic upgrades, glass atriums, and sustainability retrofits that respect their heritage.</p>
@@ -576,7 +659,7 @@
       <h2>Featured builds</h2>
       <p class="lead">A portfolio spanning glass-wrapped landmarks, resilient industrial hubs, and human-centered public spaces.</p>
       <div class="projects">
-        <div class="project-card">
+        <div class="project-card glass-animate tilt" data-reveal>
           <div class="project-img"></div>
           <div class="project-body">
             <h3>Skyline One</h3>
@@ -587,7 +670,7 @@
             </div>
           </div>
         </div>
-        <div class="project-card">
+        <div class="project-card glass-animate tilt" data-reveal data-delay="mid">
           <div class="project-img" style="background: linear-gradient(120deg, rgba(245,200,66,0.85), rgba(15,15,17,0.85)), linear-gradient(90deg, rgba(197,34,51,0.65), transparent 60%);"></div>
           <div class="project-body">
             <h3>Harbor Link Terminal</h3>
@@ -785,6 +868,61 @@
       </div>
     </section>
   </main>
+
+  <script>
+    let lastX = 0;
+    let lastY = 0;
+
+    const parallaxNodes = document.querySelectorAll('[data-parallax]');
+    const overlayGrid = document.querySelector('.grid-overlay');
+    const revealCandidates = document.querySelectorAll('.stat-card, .card, .project-card, .panel, .contact-card');
+
+    revealCandidates.forEach(el => {
+      if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
+      el.classList.add('glass-animate', 'tilt');
+    });
+
+    const revealElements = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    revealElements.forEach(el => {
+      el.classList.add('reveal');
+      observer.observe(el);
+    });
+
+    function applyParallax(mouseX = lastX, mouseY = lastY, scrollY = window.scrollY) {
+      parallaxNodes.forEach(node => {
+        const depth = parseFloat(node.dataset.depth || '0.04');
+        const x = mouseX * depth;
+        const y = mouseY * depth + scrollY * depth * -0.4;
+        node.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+
+      if (overlayGrid) {
+        overlayGrid.style.transform = `translate3d(0, ${scrollY * -0.05}px, 0)`;
+      }
+    }
+
+    window.addEventListener('mousemove', (event) => {
+      const xFactor = (event.clientX / window.innerWidth - 0.5) * 36;
+      const yFactor = (event.clientY / window.innerHeight - 0.5) * 20;
+      lastX = xFactor;
+      lastY = yFactor;
+      window.requestAnimationFrame(() => applyParallax(xFactor, yFactor));
+    });
+
+    window.addEventListener('scroll', () => {
+      window.requestAnimationFrame(() => applyParallax());
+    });
+
+    applyParallax();
+  </script>
 
   <script>
     (function() {

@@ -6,6 +6,7 @@ A single-page, glass-inspired corporate site for **AlKahf Construction**. The de
 - Hero narrative with actionable CTAs and performance stats
 - Services, featured projects, and delivery methodology sections
 - Content hub with admin/basic roles, categorized posts, and live filters
+- Apple-inspired parallax, glass glints, and scroll-triggered reveal animations
 - Contact and executive hotline panels with glassmorphic cards
 - Responsive layout built with pure HTML and CSS (Inter font via Google Fonts)
 
