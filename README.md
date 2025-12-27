@@ -1,6 +1,13 @@
-# Journal Poster Generator
+# AlKahf Construction — Executive Web Experience
 
-A static, single-page web app that renders an A3 portrait academic poster with an Apple Liquid Glass aesthetic and exports the design to high-resolution PNG or PDF.
+A single-page, glass-inspired corporate site for **AlKahf Construction**. The design language is elegant and modern, using a palette of red, gold, grey, and yellow with soft gradients, translucent surfaces, and subtle grid lines reminiscent of premium tech interfaces.
+
+## Features
+- Hero narrative with actionable CTAs and performance stats
+- Services, featured projects, and delivery methodology sections
+- Content hub with admin/basic roles, categorized posts, and live filters
+- Contact and executive hotline panels with glassmorphic cards
+- Responsive layout built with pure HTML and CSS (Inter font via Google Fonts)
 
 ## Getting started
 1. Serve the folder (or open `index.html` directly). Using Python:
@@ -9,11 +16,4 @@ A static, single-page web app that renders an A3 portrait academic poster with a
    ```
 2. Open `http://localhost:8000` in your browser.
 
-## Usage
-- The poster is previewed at a reduced scale for screens; the export runs at full A3 size (3508×4961 px, 300 DPI target).
-- Use **Download PNG (A3)** or **Download PDF (A3)** to export print-ready files. The capture routine removes preview scaling, renders with `html2canvas` (scale 2), and writes the A3-sized canvas to jsPDF.
-- Design tokens (colors, shadows, blur) are defined in the `<style>` block and implement the frosted glass look with `backdrop-filter`, translucent surfaces, and soft gradients.
-
-## Notes
-- All assets are pulled via CDN (`html2canvas`, `jsPDF`, and Inter font), so no build tooling is required.
-- Print styles hide the control bar and disable scaling for direct printing.
+No build tooling or dependencies are required.
